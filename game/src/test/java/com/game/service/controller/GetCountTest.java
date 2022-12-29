@@ -1,8 +1,8 @@
-package com.game.controller;
+package com.game.service.controller;
 
-import com.game.entity.Profession;
-import com.game.entity.Race;
-import com.game.controller.utils.TestsHelper;
+import com.game.service.entity.Profession;
+import com.game.service.entity.Race;
+import com.game.service.controller.utils.TestsHelper;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;

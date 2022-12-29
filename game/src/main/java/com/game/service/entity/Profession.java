@@ -1,4 +1,4 @@
-package com.game.entity;
+package com.game.service.entity;
 
 public enum Profession {
     WARRIOR,

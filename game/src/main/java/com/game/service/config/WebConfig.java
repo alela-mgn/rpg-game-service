@@ -1,4 +1,4 @@
-package com.game.controller.config;
+package com.game.service.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.game")
+@ComponentScan("com.game.service")
 public class WebConfig implements WebMvcConfigurer {
 
 

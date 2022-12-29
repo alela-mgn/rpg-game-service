@@ -1,12 +1,12 @@
-package com.game.service;
+package com.game.service.service;
 
-import com.game.entity.Player;
+import com.game.service.entity.Player;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PlayerService {
-    List<Player> getAll();
+
+    List<Player> getAllPlayers();
 
     List<Player> getCountPlayers();
 
@@ -20,6 +20,6 @@ public interface PlayerService {
 
     Boolean checkedCreateAndUpdatePlayer(Player player);
 
-    Boolean checkId(Long id);
+    boolean isValidated(Long id);
 
 }

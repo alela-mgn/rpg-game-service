@@ -1,9 +1,8 @@
-package com.game.service.impl;
+package com.game.service.service.impl;
 
-import com.game.entity.Player;
-import com.game.repository.PlayerRepository;
-import com.game.service.PlayerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.game.service.entity.Player;
+import com.game.service.repository.PlayerRepository;
+import com.game.service.service.PlayerService;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -15,13 +14,12 @@ public class PlayerServiceImpl implements PlayerService {
 
     private final PlayerRepository playerRepository;
 
-    @Autowired
     public PlayerServiceImpl(PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
     }
 
     @Override
-    public List<Player> getAll() {
+    public List<Player> getAllPlayers() {
         return playerRepository.findAll();
     }
 
@@ -53,25 +51,17 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Boolean checkedCreateAndUpdatePlayer(Player player) {
-        if (player.getName().length() < 1 || player.getName().length() > 12
-                || player.getTitle().length() < 1 || player.getTitle().length() > 30
-                || player.getName().isEmpty()
-                || player.getExperience() < 0 || player.getExperience() > 10_000_000
-                || player.getBirthday().getTime() < 0
-                || player.getBirthday().before(new GregorianCalendar(2000, Calendar.JANUARY, 1).getTime()) ||
-                player.getBirthday().after(new GregorianCalendar(3000, Calendar.DECEMBER, 31).getTime())
-        ) {
-            return false;
-        } else {
-            return true;
-        }
+        return player.getName().length() >= 1 && player.getName().length() <= 12
+                && player.getTitle().length() >= 1 && player.getTitle().length() <= 30
+                && !player.getName().isEmpty()
+                && player.getExperience() >= 0 && player.getExperience() <= 10_000_000
+                && player.getBirthday().getTime() >= 0
+                && !player.getBirthday().before(new GregorianCalendar(2000, Calendar.JANUARY, 1).getTime()) &&
+                !player.getBirthday().after(new GregorianCalendar(3000, Calendar.DECEMBER, 31).getTime());
     }
 
     @Override
-    public Boolean checkId(Long id) {
-        if (id == null || id <= 0L || id % 1 != 0L) {
-            return false;
-        }
-        return true;
+    public boolean isValidated(Long id) {
+        return id != null && id > 0;
     }
 }

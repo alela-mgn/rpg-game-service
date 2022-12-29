@@ -1,4 +1,4 @@
-package com.game.controller.config;
+package com.game.service.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
