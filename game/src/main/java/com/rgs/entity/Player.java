@@ -1,4 +1,4 @@
-package com.game.service.entity;
+package com.rgs.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

@@ -1,6 +1,6 @@
-package com.game.service.service;
+package com.rgs.service;
 
-import com.game.service.entity.Player;
+import com.rgs.entity.Player;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ public interface PlayerService {
 
     List<Player> getAllPlayers();
 
-    List<Player> getCountPlayers();
+    List<Player> getPlayersCount();
 
     Player getById(Long id);
 
@@ -18,8 +18,8 @@ public interface PlayerService {
 
     void update(Player player);
 
-    Boolean checkedCreateAndUpdatePlayer(Player player);
+    boolean isValidPlayer(Player player);
 
-    boolean isValidated(Long id);
+    boolean isValidId(Long id);
 
 }

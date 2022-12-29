@@ -1,4 +1,4 @@
-package com.game.service.controller;
+package com.rgs.controller;
 
 import org.junit.Test;
 

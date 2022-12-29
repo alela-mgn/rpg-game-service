@@ -1,8 +1,8 @@
-package com.game.service.controller;
+package com.rgs.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.game.service.controller.utils.PlayerInfoTest;
-import com.game.service.controller.utils.TestsHelper;
+import com.rgs.controller.utils.PlayerInfoTest;
+import com.rgs.controller.utils.TestsHelper;
 import org.junit.Test;
 import org.springframework.test.web.servlet.ResultActions;
 

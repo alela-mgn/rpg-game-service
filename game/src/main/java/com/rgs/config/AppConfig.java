@@ -1,4 +1,4 @@
-package com.game.service.config;
+package com.rgs.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,15 +23,15 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan("com.game.service")
-@EnableJpaRepositories(basePackages = "com.game.service.repository")
+@ComponentScan("com.rgs")
+@EnableJpaRepositories(basePackages = "com.rgs.repository")
 public class AppConfig {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan("com.game.service.entity");
+        em.setPackagesToScan("com.rgs.entity");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);

@@ -1,8 +1,8 @@
-package com.game.service.service.impl;
+package com.rgs.service.impl;
 
-import com.game.service.entity.Player;
-import com.game.service.repository.PlayerRepository;
-import com.game.service.service.PlayerService;
+import com.rgs.entity.Player;
+import com.rgs.repository.PlayerRepository;
+import com.rgs.service.PlayerService;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -24,7 +24,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public List<Player> getCountPlayers() {
+    public List<Player> getPlayersCount() {
         return playerRepository.findAll();
     }
 
@@ -50,7 +50,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Boolean checkedCreateAndUpdatePlayer(Player player) {
+    public boolean isValidPlayer(Player player) {
         return player.getName().length() >= 1 && player.getName().length() <= 12
                 && player.getTitle().length() >= 1 && player.getTitle().length() <= 30
                 && !player.getName().isEmpty()
@@ -61,7 +61,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public boolean isValidated(Long id) {
+    public boolean isValidId(Long id) {
         return id != null && id > 0;
     }
 }
