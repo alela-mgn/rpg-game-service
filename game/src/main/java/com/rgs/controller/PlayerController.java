@@ -1,10 +1,10 @@
-package com.game.controller;
+package com.rgs.controller;
 
-import com.game.entity.Player;
-import com.game.entity.Profession;
-import com.game.entity.Race;
-import com.game.service.PlayerService;
-import com.game.service.impl.PlayerServiceImpl;
+import com.rgs.entity.Player;
+import com.rgs.entity.Profession;
+import com.rgs.entity.Race;
+import com.rgs.service.PlayerService;
+import com.rgs.service.impl.PlayerServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +40,7 @@ public class PlayerController {
             order = PlayerOrder.ID;
         }
 
-        List<Player> players = playerService.getAll().stream()
+        List<Player> players = playerService.getAllPlayers().stream()
                 .sorted(((player1, player2) -> {
                     if (PlayerOrder.LEVEL.equals(playerOrder)) {
                         return player1.getLevel().compareTo(player2.getLevel());
@@ -84,7 +84,7 @@ public class PlayerController {
         if (order == null) {
             order = PlayerOrder.ID;
         }
-        List<Player> players = playerService.getCountPlayers().stream()
+        List<Player> players = playerService.getPlayersCount().stream()
                 .sorted(((player1, player2) -> {
                     if (PlayerOrder.LEVEL.equals(playerOrder)) {
                         return player1.getLevel().compareTo(player2.getLevel());
@@ -119,7 +119,7 @@ public class PlayerController {
     @GetMapping("/{id}")
     public ResponseEntity<Player> getByIdPlayer(@PathVariable("id") Long playerId) {
 
-        if (playerServiceImpl.checkId(playerId) == false) {
+        if (!playerServiceImpl.isValidId(playerId)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -132,7 +132,7 @@ public class PlayerController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Player> deleteByIdPlayer(@PathVariable("id") Long id) {
-        if (playerServiceImpl.checkId(id) == false) {
+        if (!playerServiceImpl.isValidId(id)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -147,10 +147,10 @@ public class PlayerController {
     @PostMapping
     public ResponseEntity<Player> createPlayer(@RequestBody Player player) {
 
-        if (!player.checkedBody()) {
+        if (!player.isCheckedBody()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if (playerServiceImpl.checkedCreateAndUpdatePlayer(player) == false) {
+        if (!playerServiceImpl.isValidPlayer(player)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         if (player.getBanned() == null) {
@@ -163,7 +163,7 @@ public class PlayerController {
 
     @PostMapping("/{id}")
     public ResponseEntity<Player> updatePlayer(@PathVariable Long id, @RequestBody Player updatePlayer) {
-        if (playerServiceImpl.checkId(id) == false) {
+        if (!playerServiceImpl.isValidId(id)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Player player = playerService.getById(id);
@@ -171,10 +171,10 @@ public class PlayerController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         player.updateChecked(updatePlayer);
-        if (!player.checkedBody()) {
+        if (!player.isCheckedBody()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if (playerServiceImpl.checkedCreateAndUpdatePlayer(player) == false) {
+        if (!playerServiceImpl.isValidPlayer(player)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

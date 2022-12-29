@@ -1,8 +1,8 @@
-package com.game.controller;
+package com.rgs.controller;
 
-import com.game.controller.config.AppConfig;
-import com.game.controller.config.MyWebAppInit;
-import com.game.controller.config.WebConfig;
+import com.rgs.config.AppConfig;
+import com.rgs.config.MyWebAppInit;
+import com.rgs.config.WebConfig;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

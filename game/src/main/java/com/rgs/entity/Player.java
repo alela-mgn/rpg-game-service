@@ -1,13 +1,20 @@
-package com.game.entity;
+package com.rgs.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Date;
 
 @Entity
 @Table(name = "player")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "fieldHandler"})
-
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -141,8 +148,8 @@ public class Player {
     }
 
     public void calculateLevel(Integer experience) {
-        Integer currentLevel = ((int) Math.sqrt(2500 + 200 * experience) - 50) / 100;
-        Integer expUntil = 50 * (currentLevel + 1) * (currentLevel + 2) - experience;
+        int currentLevel = ((int) Math.sqrt(2500 + 200 * experience) - 50) / 100;
+        int expUntil = 50 * (currentLevel + 1) * (currentLevel + 2) - experience;
         this.level = currentLevel;
         this.untilNextLevel = expUntil;
     }
@@ -181,14 +188,13 @@ public class Player {
         }
     }
 
-    public boolean checkedBody() {
-        if (this.name == null
-                || this.title == null
-                || this.race == null
-                || this.profession == null
-                || this.birthday == null
-                || this.experience == null) return false;
-        return true;
+    public boolean isCheckedBody() {
+        return this.name != null
+                && this.title != null
+                && this.race != null
+                && this.profession != null
+                && this.birthday != null
+                && this.experience != null;
     }
 
     @Override

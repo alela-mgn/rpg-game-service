@@ -1,4 +1,4 @@
-package com.game.controller;
+package com.rgs.controller;
 
 public enum PlayerOrder {
     ID("id"), // default
