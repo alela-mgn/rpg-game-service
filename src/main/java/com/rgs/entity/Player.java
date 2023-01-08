@@ -2,14 +2,7 @@ package com.rgs.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
@@ -69,10 +62,6 @@ public class Player {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -145,56 +134,6 @@ public class Player {
 
     public void setUntilNextLevel(Integer untilNextLevel) {
         this.untilNextLevel = untilNextLevel;
-    }
-
-    public void calculateLevel(Integer experience) {
-        int currentLevel = ((int) Math.sqrt(2500 + 200 * experience) - 50) / 100;
-        int expUntil = 50 * (currentLevel + 1) * (currentLevel + 2) - experience;
-        this.level = currentLevel;
-        this.untilNextLevel = expUntil;
-    }
-
-    public void ignoringIdLevelUntil() {
-        this.id = null;
-        this.level = null;
-        this.untilNextLevel = null;
-    }
-
-    public void updateChecked(Player updatePlayer) {
-        updatePlayer.id = null;
-        updatePlayer.level = null;
-        updatePlayer.untilNextLevel = null;
-        if (updatePlayer.name != null) {
-            this.name = updatePlayer.name;
-        }
-        if (updatePlayer.title != null) {
-            this.title = updatePlayer.title;
-        }
-        if (updatePlayer.race != null) {
-            this.race = updatePlayer.race;
-        }
-        if (updatePlayer.profession != null) {
-            this.profession = updatePlayer.profession;
-        }
-        if (updatePlayer.birthday != null) {
-            this.birthday = updatePlayer.birthday;
-        }
-        if (updatePlayer.banned != null) {
-            this.banned = updatePlayer.banned;
-        }
-        if (updatePlayer.experience != null) {
-            this.experience = updatePlayer.experience;
-            calculateLevel(this.experience);
-        }
-    }
-
-    public boolean isCheckedBody() {
-        return this.name != null
-                && this.title != null
-                && this.race != null
-                && this.profession != null
-                && this.birthday != null
-                && this.experience != null;
     }
 
     @Override
