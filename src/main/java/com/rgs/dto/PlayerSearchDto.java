@@ -9,8 +9,8 @@ public class PlayerSearchDto {
     private String title;
     private Race race;
     private Profession profession;
-    private Long afterDate;
-    private Long beforeDate;
+    private Long after;
+    private Long before;
     private Boolean banned;
     private Integer minExperience;
     private Integer maxExperience;
@@ -54,20 +54,20 @@ public class PlayerSearchDto {
         this.profession = profession;
     }
 
-    public Long getAfterDate() {
-        return afterDate;
+    public Long getAfter() {
+        return after;
     }
 
-    public void setAfterDate(Long afterDate) {
-        this.afterDate = afterDate;
+    public void setAfter(Long afterDate) {
+        this.after = afterDate;
     }
 
-    public Long getBeforeDate() {
-        return beforeDate;
+    public Long getBefore() {
+        return before;
     }
 
-    public void setBeforeDate(Long beforeDate) {
-        this.beforeDate = beforeDate;
+    public void setBefore(Long beforeDate) {
+        this.before = beforeDate;
     }
 
     public Boolean getBanned() {

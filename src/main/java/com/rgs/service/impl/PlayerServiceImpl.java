@@ -20,49 +20,25 @@ import static java.util.Optional.ofNullable;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
-
     private final PlayerRepository playerRepository;
     private final PlayerValidator playerValidator;
     private final PlayerFilter playerFilter;
-
 
     public PlayerServiceImpl(PlayerRepository playerRepository, PlayerValidator playerValidator, PlayerFilter playerFilter) {
         this.playerRepository = playerRepository;
         this.playerValidator = playerValidator;
         this.playerFilter = playerFilter;
-
     }
 
     @Override
-    public List<Player> getAllPlayers(PlayerSearchDto playerSearch) {
-
-        Pageable pageable = PageRequest.of(playerSearch.getPageNumber(), playerSearch.getPageSize(), Sort.by(playerSearch.getOrder().getFieldName()));
-
-        Specification<Player> specification = Specification
-                .where(playerFilter.filterByName(playerSearch.getName()))
-                .and(playerFilter.filterByTitle(playerSearch.getTitle()))
-                .and(playerFilter.filterByRace(playerSearch.getRace()))
-                .and(playerFilter.filterByProfession(playerSearch.getProfession()))
-                .and(playerFilter.filterByBirthday(playerSearch.getAfterDate(), playerSearch.getBeforeDate()))
-                .and(playerFilter.filterByBanned(playerSearch.getBanned()))
-                .and(playerFilter.filterByExperience(playerSearch.getMinExperience(), playerSearch.getMaxExperience()))
-                .and(playerFilter.filterByLevel(playerSearch.getMinLevel(), playerSearch.getMaxLevel()));
-
-        return playerRepository.findAll(specification, pageable);
+    public List<Player> getAllPlayers(PlayerSearchDto searchDto) {
+        Pageable pageable = PageRequest.of(searchDto.getPageNumber(), searchDto.getPageSize(), Sort.by(searchDto.getOrder().getFieldName()));
+        return playerRepository.findAll(buildSpecification(searchDto), pageable).getContent();
     }
 
     @Override
-    public List<Player> getPlayersCount(PlayerSearchDto playerSearch) {
-        Specification<Player> specification = Specification
-                .where(playerFilter.filterByName(playerSearch.getName()))
-                .and(playerFilter.filterByTitle(playerSearch.getTitle()))
-                .and(playerFilter.filterByRace(playerSearch.getRace()))
-                .and(playerFilter.filterByProfession(playerSearch.getProfession()))
-                .and(playerFilter.filterByBirthday(playerSearch.getAfterDate(), playerSearch.getBeforeDate()))
-                .and(playerFilter.filterByBanned(playerSearch.getBanned()))
-                .and(playerFilter.filterByExperience(playerSearch.getMinExperience(), playerSearch.getMaxExperience()))
-                .and(playerFilter.filterByLevel(playerSearch.getMinLevel(), playerSearch.getMaxLevel()));
-        return playerRepository.findAll(specification);
+    public List<Player> getPlayersCount(PlayerSearchDto searchDto) {
+        return playerRepository.findAll(buildSpecification(searchDto));
     }
 
     @Override
@@ -81,8 +57,6 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Player create(Player player) {
         playerValidator.validatePlayer(player);
-
-        defaultBan(player);
         calculateLevel(player);
 
         return playerRepository.save(player);
@@ -100,15 +74,15 @@ public class PlayerServiceImpl implements PlayerService {
 
         ofNullable(player.getName())
                 .map(x -> toAttribute(x, playerValidator::validateName)).ifPresent(foundPlayer::setName);
-        ofNullable(player.getBanned()).ifPresent(foundPlayer::setBanned);
         ofNullable(player.getBirthday())
                 .map(x -> toAttribute(x, playerValidator::validateBirthday)).ifPresent(foundPlayer::setBirthday);
         ofNullable(player.getExperience())
                 .map(x -> toAttribute(x, playerValidator::validateExperience)).ifPresent(foundPlayer::setExperience);
-        ofNullable(player.getProfession()).ifPresent(foundPlayer::setProfession);
-        ofNullable(player.getRace()).ifPresent(foundPlayer::setRace);
         ofNullable(player.getTitle())
                 .map(x -> toAttribute(x, playerValidator::validateTitle)).ifPresent(foundPlayer::setTitle);
+        ofNullable(player.getProfession()).ifPresent(foundPlayer::setProfession);
+        ofNullable(player.getRace()).ifPresent(foundPlayer::setRace);
+        ofNullable(player.getBanned()).ifPresent(foundPlayer::setBanned);
 
         calculateLevel(foundPlayer);
 
@@ -120,17 +94,24 @@ public class PlayerServiceImpl implements PlayerService {
         return attribute;
     }
 
+    private Specification<Player> buildSpecification(PlayerSearchDto searchDto) {
+        return Specification
+                .where(playerFilter.filterByName(searchDto.getName()))
+                .and(playerFilter.filterByTitle(searchDto.getTitle()))
+                .and(playerFilter.filterByRace(searchDto.getRace()))
+                .and(playerFilter.filterByProfession(searchDto.getProfession()))
+                .and(playerFilter.filterByBirthday(searchDto.getAfter(), searchDto.getBefore()))
+                .and(playerFilter.filterByBirthday(searchDto.getAfter(), searchDto.getBefore()))
+                .and(playerFilter.filterByBanned(searchDto.getBanned()))
+                .and(playerFilter.filterByExperience(searchDto.getMinExperience(), searchDto.getMaxExperience()))
+                .and(playerFilter.filterByLevel(searchDto.getMinLevel(), searchDto.getMaxLevel()));
+    }
+
     private void calculateLevel(Player player) {
         int currentLevel = ((int) Math.sqrt(2500 + 200 * player.getExperience()) - 50) / 100;
         int expUntil = 50 * (currentLevel + 1) * (currentLevel + 2) - player.getExperience();
         player.setLevel(currentLevel);
         player.setUntilNextLevel(expUntil);
-    }
-
-    private void defaultBan(Player player) {
-        if (player.getBanned() == null) {
-            player.setBanned(false);
-        }
     }
 
     private boolean hasNullAttribute(Player player) {

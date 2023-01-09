@@ -2,13 +2,21 @@ package com.rgs.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Date;
 
 @Entity
 @Table(name = "player")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "fieldHandler"})
 public class Player {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -32,7 +40,7 @@ public class Player {
     private Date birthday;
 
     @Column(name = "banned")
-    private Boolean banned;
+    private Boolean banned = false;
 
     @Column(name = "experience")
     private Integer experience;
@@ -44,7 +52,6 @@ public class Player {
     private Integer untilNextLevel;
 
     public Player() {
-
     }
 
     public Player(Long id, String name, String title, Race race, Profession profession, Date birthday, Boolean banned, Integer experience, Integer level, Integer untilNextLevel) {
