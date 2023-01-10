@@ -1,29 +1,35 @@
 # Game Admin Application
 ## Описание
-CRUD приложение, которое позволяет редактировать параметры персонажей (игроков) и назначать банны. Информация о игроках
+CRUD приложение, которое позволяет редактировать параметры персонажей (игроков) и назначать баны. Информация о игроках
 хранится в базе данных.
 
 ***
 ## Системные требования
 Установленные:
 - Java 11
-- Apache Maven
-- Apache Tomcat
-- MySQL
+- Apache Maven 3.6.0
+- Apache Tomcat 9.0.x
+- MySQL 8.0.x
 ***
 ## Установка
 - Клонируйте репозиторий
-  `git clone https://github.com/alela-mgn/movie-storage.git`
+  ```
+  git clone https://github.com/alela-mgn/rpg-game-service.git
+  ```
 - выполните команду
-  `mvn clean install`
-- запустите файл
-  `init.sql`
+  ```
+  mvn clean install
+  ```
+- скопируйте файл приложения `<project_root>/target/rpg-1.0-SNAPSHOT.war` в директорию `<apache_tomcat_directory>/webapps`
+
 ***
 ## Запуск программы
-- Выполните команду
-  `java -jar target/MovieStorage-0.0.1-SNAPSHOT.jar`
-***
+- В директории `<apache_tomcat_directory>/bin` выполнить команду 
+  ```
+  ./startup
+  ``` 
 
+***
 CRUD endpoints
 ---
 Endpoint :

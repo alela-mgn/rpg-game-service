@@ -1,25 +1,22 @@
 package com.rgs.service;
 
+import com.rgs.dto.PlayerSearchDto;
 import com.rgs.entity.Player;
 
 import java.util.List;
 
 public interface PlayerService {
 
-    List<Player> getAllPlayers();
+    List<Player> getAllPlayers(PlayerSearchDto searchDto);
 
-    List<Player> getPlayersCount();
+    List<Player> getPlayersCount(PlayerSearchDto searchDto);
 
     Player getById(Long id);
 
     void delete(Long id);
 
-    void create(Player player);
+    Player create(Player player);
 
-    void update(Player player);
-
-    boolean isValidPlayer(Player player);
-
-    boolean isValidId(Long id);
+    Player update(Long id, Player player);
 
 }

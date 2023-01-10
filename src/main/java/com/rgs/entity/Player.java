@@ -16,6 +16,7 @@ import java.sql.Date;
 @Table(name = "player")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "fieldHandler"})
 public class Player {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -39,7 +40,7 @@ public class Player {
     private Date birthday;
 
     @Column(name = "banned")
-    private Boolean banned;
+    private Boolean banned = false;
 
     @Column(name = "experience")
     private Integer experience;
@@ -51,7 +52,6 @@ public class Player {
     private Integer untilNextLevel;
 
     public Player() {
-
     }
 
     public Player(Long id, String name, String title, Race race, Profession profession, Date birthday, Boolean banned, Integer experience, Integer level, Integer untilNextLevel) {
@@ -69,10 +69,6 @@ public class Player {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -145,56 +141,6 @@ public class Player {
 
     public void setUntilNextLevel(Integer untilNextLevel) {
         this.untilNextLevel = untilNextLevel;
-    }
-
-    public void calculateLevel(Integer experience) {
-        int currentLevel = ((int) Math.sqrt(2500 + 200 * experience) - 50) / 100;
-        int expUntil = 50 * (currentLevel + 1) * (currentLevel + 2) - experience;
-        this.level = currentLevel;
-        this.untilNextLevel = expUntil;
-    }
-
-    public void ignoringIdLevelUntil() {
-        this.id = null;
-        this.level = null;
-        this.untilNextLevel = null;
-    }
-
-    public void updateChecked(Player updatePlayer) {
-        updatePlayer.id = null;
-        updatePlayer.level = null;
-        updatePlayer.untilNextLevel = null;
-        if (updatePlayer.name != null) {
-            this.name = updatePlayer.name;
-        }
-        if (updatePlayer.title != null) {
-            this.title = updatePlayer.title;
-        }
-        if (updatePlayer.race != null) {
-            this.race = updatePlayer.race;
-        }
-        if (updatePlayer.profession != null) {
-            this.profession = updatePlayer.profession;
-        }
-        if (updatePlayer.birthday != null) {
-            this.birthday = updatePlayer.birthday;
-        }
-        if (updatePlayer.banned != null) {
-            this.banned = updatePlayer.banned;
-        }
-        if (updatePlayer.experience != null) {
-            this.experience = updatePlayer.experience;
-            calculateLevel(this.experience);
-        }
-    }
-
-    public boolean isCheckedBody() {
-        return this.name != null
-                && this.title != null
-                && this.race != null
-                && this.profession != null
-                && this.birthday != null
-                && this.experience != null;
     }
 
     @Override
