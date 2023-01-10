@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface PlayerService {
 
-    List<Player> getAllPlayers(PlayerSearchDto playerSearchDto);
+    List<Player> getAllPlayers(PlayerSearchDto searchDto);
 
-    List<Player> getPlayersCount(PlayerSearchDto playerSearch);
+    List<Player> getPlayersCount(PlayerSearchDto searchDto);
 
     Player getById(Long id);
 

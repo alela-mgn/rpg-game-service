@@ -24,13 +24,13 @@ public class PlayerController {
     }
 
     @GetMapping
-    public List<Player> getAllPlayers(@ModelAttribute PlayerSearchDto playerSearchDto) {
-        return playerService.getAllPlayers(playerSearchDto);
+    public List<Player> getAllPlayers(@ModelAttribute PlayerSearchDto searchDto) {
+        return playerService.getAllPlayers(searchDto);
     }
 
     @GetMapping("/count")
-    public Integer getCountPlayer(@ModelAttribute PlayerSearchDto playerSearchDto) {
-        return playerService.getPlayersCount(playerSearchDto).size();
+    public Integer getCountPlayer(@ModelAttribute PlayerSearchDto searchDto) {
+        return playerService.getPlayersCount(searchDto).size();
     }
 
     @GetMapping("/{id}")
